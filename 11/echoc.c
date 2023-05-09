@@ -15,7 +15,7 @@ int main()
     struct sockaddr_un remote = {
         .sun_family = AF_UNIX,
         // .sun_path = SOCK_PATH, // Can't do assignment to an array
-    }
+    };
     char str[100];
 
     if((s = socket(AF_UNIX, SOCK_STREAM, 0))== -1)
@@ -39,13 +39,13 @@ int main()
     /* note: size in fgets() includes the null byte */
     while(printf("> "), fgets(str, sizeof(str), stdin), !feof(stdin))
     {
-        if(send(s, str, strlen(str) + 1, 0) == -1)
+        if(send(s, str, strlen(str)+1, 0) == -1)
         {
             perror("send");
             exit(1);
         }
 
-        if((len = recv(s, str, strlen(str)-1, 0)) > 0)
+        if((len = recv(s, str, sizeof(str)-1, 0)) > 0)
         {
             str[len] = '\0';
             printf("echo> %s", str);

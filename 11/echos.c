@@ -12,7 +12,7 @@
 int main()
 {
     int s, s2, len;
-    struct sockaddr_un remote local = {
+    struct sockaddr_un remote, local = {
         .sun_family = AF_UNIX,
         // .sun_path = SOCK_PATH, // Can't do assignment to an array
     };
@@ -44,7 +44,7 @@ int main()
         int done, n;
         printf("Waiting for a connection...\n");
         socklen_t slen = sizeof(remote);
-        if((s2 = accept(s, (struct sockaddr *)&remote, slen)) == -1)
+        if((s2 = accept(s, (struct sockaddr *)&remote, &slen)) == -1)
         {
             perror("accept");
             exit(1);
@@ -75,6 +75,6 @@ int main()
 
         close(s2);        
     }
-    
+
     return 0;
 }
