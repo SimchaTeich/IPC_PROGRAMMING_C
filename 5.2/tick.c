@@ -14,6 +14,7 @@ int main(void)
     char s[300];
     int num, fd;
 
+    // octal 644 is actualy the permission: rw-r--r--
     mknod(FIFO_NAME, S_IFIFO | 0644, 0);
 
     printf("waiting for writers...\n");
