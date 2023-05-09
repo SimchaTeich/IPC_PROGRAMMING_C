@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define FIFO_NAME "american_maid"
+#define FIFO_NAME "myfifo"
 
 int main(void)
 {
@@ -20,14 +20,19 @@ int main(void)
     fd = open(FIFO_NAME, O_RDONLY);
     printf("got a writer\n");
 
-    do {
+    do
+    {
         if ((num = read(fd, s, 300)) == -1)
+        {
             perror("read");
-        else {
+        }
+        else 
+        {
             s[num] = '\0';
             printf("tick: read %d bytes: \"%s\"\n", num, s);
         }
-    } while (num > 0);
+    }
+    while (num > 0);
 
     return 0;
 }

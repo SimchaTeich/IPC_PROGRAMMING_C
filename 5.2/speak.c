@@ -7,24 +7,30 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define FIFO_NAME "american_maid"
+#define FIFO_NAME "myfifo"
 
 int main(void)
 {
     char s[300];
     int num, fd;
 
+    // octal 644 is actualy the permission: rw-r--r--
     mknod(FIFO_NAME, S_IFIFO | 0644, 0);
 
     printf("waiting for readers...\n");
     fd = open(FIFO_NAME, O_WRONLY);
     printf("got a reader--type some stuff\n");
 
-    while (gets(s), !feof(stdin)) {
+    while (gets(s), !feof(stdin))
+    {
         if ((num = write(fd, s, strlen(s))) == -1)
+        {
             perror("write");
+        }
         else
+        {
             printf("speak: wrote %d bytes\n", num);
+        }
     }
 
     return 0;
