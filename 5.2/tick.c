@@ -7,32 +7,27 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define FIFO_NAME "myfifo"
+#define FIFO_NAME "american_maid"
 
-int main()
+int main(void)
 {
-    char s[300]
+    char s[300];
     int num, fd;
 
     mknod(FIFO_NAME, S_IFIFO | 0666, 0);
 
     printf("waiting for writers...\n");
-    fd = open(FIFO_NAME, O_WRONLY);
+    fd = open(FIFO_NAME, O_RDONLY);
     printf("got a writer\n");
 
-    do
-    {
-        if((num = read(fd, s, strlen(s))) == -1)
-        {
+    do {
+        if ((num = read(fd, s, 300)) == -1)
             perror("read");
-        }
-        else
-        {
+        else {
             s[num] = '\0';
-            printf("tick: read %d bytes\n", num);
+            printf("tick: read %d bytes: \"%s\"\n", num, s);
         }
-    }
-    while(num > 0);
+    } while (num > 0);
 
     return 0;
 }

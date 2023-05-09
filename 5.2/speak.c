@@ -7,11 +7,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define FIFO_NAME "myfifo"
+#define FIFO_NAME "american_maid"
 
-int main()
+int main(void)
 {
-    char s[300]
+    char s[300];
     int num, fd;
 
     mknod(FIFO_NAME, S_IFIFO | 0666, 0);
@@ -20,18 +20,12 @@ int main()
     fd = open(FIFO_NAME, O_WRONLY);
     printf("got a reader--type some stuff\n");
 
-    while(gets(s), !feof(stdin))
-    {
-        if((num = write(fd, s, strlen(s))) == -1)
-        {
+    while (gets(s), !feof(stdin)) {
+        if ((num = write(fd, s, strlen(s))) == -1)
             perror("write");
-        }
         else
-        {
             printf("speak: wrote %d bytes\n", num);
-        }
     }
 
     return 0;
 }
-
